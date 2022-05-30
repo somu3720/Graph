@@ -1,0 +1,57 @@
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        
+        boolean visited[] = new boolean[n];
+        
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(source);
+        visited[source] = true;
+        
+        while(!q.isEmpty())
+        {
+            int currnode = q.poll();
+            
+            if(currnode == destination) return true;
+            
+            List<Integer> adjnode = getAdjacent(n, edges, currnode);
+            
+            for(int val : adjnode)
+            {
+                if(visited[val] == false)
+                {
+                    q.offer(val);
+                    visited[val] = true;
+                }
+            }
+            
+        }
+        
+        return false;
+    }
+    
+    public List<Integer> getAdjacent(int n, int edges[][], int currnode)
+    {
+        List<Integer> adj = new ArrayList<>();
+        
+        for(int child[] : edges)
+        {
+            int first = child[0];
+            int last = child[1];
+            
+            if(first == currnode)
+            {
+                adj.add(last);
+            }
+            
+            if(last == currnode)
+            {
+                adj.add(first);
+            }
+        }
+        
+        return adj;
+        
+    }
+}
+
+//https://leetcode.com/problems/find-if-path-exists-in-graph/discuss/1989816/BFS-oror-Iteration
