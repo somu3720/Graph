@@ -1,0 +1,47 @@
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+        
+        int count = 0;
+        
+        boolean visited[] = new boolean[n];
+        
+        List<Integer>[] adjlist = new ArrayList[n];
+        
+        for(int i = 0; i < n; i++)
+        {
+            adjlist[i] = new ArrayList<Integer>();
+        }
+        
+        for(int i = 0; i < edges.length; i++)
+        {
+            adjlist[edges[i][0]].add(edges[i][1]);
+            adjlist[edges[i][1]].add(edges[i][0]);
+        }
+        
+        for(int i = 0; i < n; i++)
+        {
+            if(!visited[i])
+            {
+                count++;
+                dfs(adjlist, visited,i);
+            }
+        }
+        
+        return count;
+    }
+    
+    private void dfs(List<Integer>[] adj, boolean visited[], int src)
+    {
+        visited[src] = true;
+        
+        for(int neighbour : adj[src])
+        {
+            if(!visited[neighbour])
+            {
+                dfs(adj, visited, neighbour);
+            }
+        }
+    }
+} 
+
+//leetcode video solution
