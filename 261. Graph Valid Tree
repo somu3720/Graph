@@ -1,0 +1,43 @@
+class Solution {
+    private List<List<Integer>> adjlist = new ArrayList<>();
+    private Set<Integer> visited = new HashSet<>();
+  
+    public boolean validTree(int n, int[][] edges) {
+        if(n == 0) return true;
+        
+        if(edges.length != n-1) return false;
+        
+      // creating adjlist
+        for(int i = 0; i < n; i++)
+            adjlist.add(new ArrayList<>());
+        
+        for(int [] edge : edges)
+        {
+            adjlist.get(edge[0]).add(edge[1]);
+            adjlist.get(edge[1]).add(edge[0]);
+        }
+            
+        boolean noCycle = dfs(0);
+        
+        return noCycle == true && visited.size() == n;
+    }
+    
+    private boolean dfs(int src)
+    { 
+        if(visited.contains(src))
+            return false;
+        
+        visited.add(src);
+        
+        for(int neighbour : adjlist.get(src))
+        {
+            dfs(neighbour);
+        }
+        
+        return true;
+        
+    }
+    
+}
+
+//https://www.youtube.com/watch?v=-paQPboYZ6Q
