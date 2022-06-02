@@ -1,0 +1,62 @@
+class Solution {
+    public int minimumSemesters(int n, int[][] relations) {
+        
+        int indegree[] = new int[n+1];
+        List<List<Integer>> adj = new ArrayList<>(n+1);
+        
+        for(int i = 0; i < n+1; i++)
+        {
+            adj.add(new ArrayList<Integer>());
+        }
+        
+        for(int [] edge : relations)
+        {
+            adj.get(edge[0]).add(edge[1]);
+            indegree[edge[1]]++;
+        }
+        
+        int step = 0;
+        int visitedCount = 0;
+        List<Integer> bfsQ = new ArrayList<>();
+        
+        for(int i = 1; i < n + 1; i++)
+        {
+            if(indegree[i] == 0)
+            {
+                bfsQ.add(i);
+            }
+        }
+        
+        
+        // start learning with BFS
+        while(!bfsQ.isEmpty())
+        {
+            // start new semester
+            step++;
+            List<Integer> nxtQ = new ArrayList<>();
+            
+            for(int node : bfsQ)
+            {
+                visitedCount++;
+                for(int neighbour : adj.get(node))
+                {
+                    indegree[neighbour]--;
+                    
+                    if(indegree[neighbour] == 0)
+                    {
+                        nxtQ.add(neighbour);
+                    }
+                }
+            }
+            
+            bfsQ = nxtQ;
+            
+        }
+        
+        return visitedCount == n ? step : -1;
+        
+    }
+}
+
+
+//leetcode editorial
